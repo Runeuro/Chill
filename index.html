@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<title>Тихий уголок</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0a0a;--surface:#141414;--surface-2:#1a1a1a;
+  --text:#e5e5e5;--muted:#737373;--dim:#444;
+  --accent:#f97316;--accent-dim:rgba(249,115,22,.12);
+  --accent-glow:rgba(249,115,22,.25);
+  --border:rgba(249,115,22,.15);--border-2:rgba(249,115,22,.35);
+  --radius:22px;--t:all .45s cubic-bezier(.25,.46,.45,.94);
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;
+  padding:0 0 calc(72px + var(--safe-b));
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 20px;width:100%}
+.panel{width:100%;max-width:680px;display:none;animation:panelIn .4s ease both}
+.panel.active{display:block}
+@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{
+  background:var(--surface);border-radius:var(--radius);
+  padding:56px 48px;border:1px solid var(--border);
+  position:relative;overflow:hidden;min-height:280px;
+  display:flex;flex-direction:column;justify-content:center;transition:var(--t);
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(to bottom,var(--accent),transparent 85%);
+  border-radius:var(--radius) 0 0 var(--radius);
+}
+.card::after{
+  content:'';position:absolute;bottom:0;right:0;width:120px;height:120px;
+  background:radial-gradient(circle at bottom right,var(--accent-dim),transparent 70%);
+  pointer-events:none;
+}
+.card:hover{border-color:var(--border-2);box-shadow:0 8px 40px rgba(249,115,22,.06)}
+.badge{
+  position:absolute;top:24px;right:28px;font-size:.6rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--accent);opacity:.8;padding:5px 11px;border-radius:100px;
+  border:1px solid var(--border-2);background:var(--accent-dim);transition:var(--t);
+}
+.content{transition:var(--t)}
+.content.exit{opacity:0;transform:translateY(-12px) scale(.98);filter:blur(4px)}
+.content.enter{opacity:0;transform:translateY(12px) scale(.98);filter:blur(4px)}
+.text{
+  font-size:clamp(1.2rem,3.4vw,1.65rem);font-weight:400;line-height:1.55;
+  color:#fff;letter-spacing:-.01em;margin-bottom:24px;white-space:pre-line;
+}
+.text::before{content:'“';color:var(--accent);font-size:1.3em;line-height:0;vertical-align:-.15em;margin-right:4px;opacity:.8}
+.author{font-size:.92rem;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:10px;letter-spacing:.02em}
+.author::before{content:'';width:22px;height:1px;background:var(--accent);opacity:.8;flex-shrink:0}
+.author:empty{display:none}
+.tabbar{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:center;gap:0;
+  padding:0 12px calc(8px + var(--safe-b));
+  background:linear-gradient(to top,var(--bg) 70%,transparent);pointer-events:none;
+}
+.tabbar-inner{
+  display:flex;gap:2px;pointer-events:auto;overflow-x:auto;overflow-y:visible;
+  scrollbar-width:none;padding:8px 4px 0;max-width:100%;-webkit-overflow-scrolling:touch;
+}
+.tabbar-inner::-webkit-scrollbar{display:none}
+.tab{
+  flex-shrink:0;display:flex;align-items:center;gap:6px;padding:9px 16px;
+  border-radius:12px 12px 0 0;background:var(--surface);border:1px solid var(--border);
+  border-bottom:none;color:var(--muted);font-size:.72rem;font-weight:500;
+  cursor:pointer;transition:var(--t);white-space:nowrap;position:relative;top:1px;
+  user-select:none;font-family:inherit;
+}
+.tab:hover{border-color:var(--border-2);color:var(--text);background:var(--surface-2)}
+.tab.active{background:var(--surface);border-color:var(--accent);color:var(--accent);top:0;box-shadow:0 -4px 20px rgba(249,115,22,.08)}
+.tab .icon{font-size:.9rem;line-height:1}
+.actions{display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap}
+.btn{
+  width:48px;height:48px;border-radius:50%;background:var(--surface);
+  border:1px solid var(--border-2);color:var(--accent);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:var(--t);font-family:inherit;
+}
+.btn:hover{background:var(--accent);color:var(--bg);transform:scale(1.08);box-shadow:0 0 24px var(--accent-glow)}
+.btn:active{transform:scale(.94)}
+.btn.text-btn{width:auto;height:auto;border-radius:100px;padding:10px 22px;font-size:.78rem;font-weight:500;gap:8px}
+.breath-wrap{display:flex;flex-direction:column;align-items:center;gap:28px}
+.breath-ring{
+  width:180px;height:180px;border-radius:50%;border:3px solid var(--border-2);
+  background:radial-gradient(circle,var(--accent-dim),transparent 70%);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 4s ease-in-out, box-shadow 4s ease-in-out;position:relative;
+}
+.breath-ring::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid var(--accent);opacity:.15}
+.breath-ring.inhale{transform:scale(1.35);box-shadow:0 0 60px var(--accent-glow)}
+.breath-ring.exhale{transform:scale(.75);box-shadow:0 0 20px transparent}
+.breath-label{font-size:1.2rem;font-weight:500;color:var(--accent);letter-spacing:.06em}
+.breath-hint{font-size:.78rem;color:var(--dim)}
+.color-swatch{width:100%;height:180px;border-radius:16px;margin-bottom:20px;border:1px solid var(--border);transition:var(--t)}
+.color-name{font-size:1.4rem;font-weight:600;color:#fff;margin-bottom:4px}
+.color-hex{font-size:.85rem;color:var(--muted);font-family:monospace;letter-spacing:.05em}
+.color-desc{font-size:.88rem;color:var(--muted);margin-top:12px;line-height:1.5}
+.photo-wrap{
+  width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--border);
+  background:var(--surface-2);aspect-ratio:4/3;position:relative;
+}
+.photo-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:var(--t)}
+.photo-cap{font-size:.75rem;color:var(--muted);margin-top:12px;text-align:center;letter-spacing:.02em}
+.sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.sound-chip{
+  padding:14px 8px;border-radius:14px;background:var(--surface-2);
+  border:1px solid var(--border);color:var(--muted);font-size:.72rem;font-weight:500;
+  cursor:pointer;transition:var(--t);text-align:center;font-family:inherit;
+}
+.sound-chip:hover{border-color:var(--border-2);color:var(--text)}
+.sound-chip.on{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.word-big{font-size:clamp(1.8rem,6vw,2.6rem);font-weight:600;color:#fff;margin-bottom:8px;letter-spacing:-.02em}
+.word-pron{font-size:.9rem;color:var(--accent);margin-bottom:16px;font-family:monospace}
+.word-pos{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.word-def{font-size:1rem;color:var(--text);line-height:1.55}
+.step-icon{font-size:2.4rem;margin-bottom:16px}
+.step-text{font-size:1.1rem;line-height:1.5;color:#fff;margin-bottom:20px}
+.step-done{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:100px;
+  background:var(--accent);color:var(--bg);font-weight:600;font-size:.82rem;
+  cursor:pointer;border:none;font-family:inherit;transition:var(--t);
+}
+.step-done:hover{box-shadow:0 0 24px var(--accent-glow);transform:scale(1.04)}
+.step-done:active{transform:scale(.96)}
+.timer{text-align:center;margin-top:20px;font-size:.75rem;color:var(--dim);letter-spacing:.05em}
+.timer::after{content:'';display:block;width:36px;height:2px;background:var(--border-2);margin:10px auto 0;border-radius:2px}
+@media(max-width:680px){
+  .stage{padding:24px 14px}
+  .card{padding:40px 24px;min-height:240px}
+  .badge{top:16px;right:18px;font-size:.55rem}
+  .tab{padding:8px 12px;font-size:.68rem}
+  .tab .label{display:none}
+  .tab .icon{font-size:1rem}
+  .breath-ring{width:150px;height:150px}
+  .sound-grid{grid-template-columns:repeat(2,1fr)}
+  .text{font-size:1.1rem}
+}
+@media(max-width:380px){.tab{padding:7px 10px}.card{padding:32px 18px}}
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- 0. ЦИТАТНИК -->
+  <div class="panel active" id="p0">
+    <div class="card">
+      <div class="badge" id="badge0">мысль</div>
+      <div class="content" id="c0">
+        <div class="text" id="t0"></div>
+        <div class="author" id="a0"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="nextTab(0)" aria-label="Следующая">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+    <div class="timer" id="tmr0"></div>
+  </div>
+
+  <!-- 1. ВИЗУАЛЬНЫЙ ШУМ -->
+  <div class="panel" id="p1">
+    <div class="card">
+      <div class="badge">шум</div>
+      <div id="noise" style="width:100%;height:220px;border-radius:16px;transition:background 1.2s ease"></div>
+      <div class="color-desc" style="text-align:center;margin-top:16px">Случайный градиент</div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="newNoise()" aria-label="Новый шум">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. СЛОВО -->
+  <div class="panel" id="p2">
+    <div class="card">
+      <div class="badge">слово</div>
+      <div class="content" id="c2">
+        <div class="word-big" id="w2"></div>
+        <div class="word-pron" id="wp2"></div>
+        <div class="word-pos" id="wpos2"></div>
+        <div class="word-def" id="wd2"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="newWord()" aria-label="Следующее слово">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 3. ДЫХАНИЕ -->
+  <div class="panel" id="p3">
+    <div class="card">
+      <div class="badge">дыхание</div>
+      <div class="breath-wrap">
+        <div class="breath-ring" id="ring"></div>
+        <div class="breath-label" id="blabel">Нажмите старт</div>
+        <div class="breath-hint">4 секунды вдох · 4 задержка · 4 выдох</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn text-btn" id="breathBtn" onclick="toggleBreath()">▶ Старт</button>
+    </div>
+  </div>
+
+  <!-- 4. ЦВЕТ ДНЯ -->
+  <div class="panel" id="p4">
+    <div class="card">
+      <div class="badge">цвет дня</div>
+      <div class="color-swatch" id="swatch"></div>
+      <div class="color-name" id="cname"></div>
+      <div class="color-hex" id="chex"></div>
+      <div class="color-desc" id="cdesc"></div>
+    </div>
+  </div>
+
+  <!-- 5. ОДИН КАДР -->
+  <div class="panel" id="p5">
+    <div class="card">
+      <div class="badge">кадр</div>
+      <div class="photo-wrap">
+        <img id="photoImg" alt="Случайное фото" loading="lazy">
+      </div>
+      <div class="photo-cap" id="photoCap">Загрузка...</div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="newPhoto()" aria-label="Новое фото">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 6. ШАГ ЗА ШАГОМ -->
+  <div class="panel" id="p6">
+    <div class="card">
+      <div class="badge">шаг</div>
+      <div class="content" id="c6">
+        <div class="step-icon" id="si6"></div>
+        <div class="step-text" id="st6"></div>
+        <button class="step-done" id="sd6" onclick="markDone()">✓ Сделано</button>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="newStep()" aria-label="Следующий шаг">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 7. ЗВУК -->
+  <div class="panel" id="p7">
+    <div class="card">
+      <div class="badge">звук</div>
+      <div class="text" style="font-size:1rem;margin-bottom:8px">Выберите атмосферу</div>
+      <div class="sound-grid" id="soundGrid"></div>
+    </div>
+    <div class="actions">
+      <button class="btn text-btn" id="soundStop" onclick="stopSound()" style="display:none">■ Стоп</button>
+    </div>
+  </div>
+
+  <!-- 8. АСТРО-ФАКТ -->
+  <div class="panel" id="p8">
+    <div class="card">
+      <div class="badge">космос</div>
+      <div class="content" id="c8">
+        <div class="text" id="t8" style="font-size:1.1rem"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="newAstro()" aria-label="Следующий факт">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 9. СТИХ -->
+  <div class="panel" id="p9">
+    <div class="card">
+      <div class="badge">стих</div>
+      <div class="content" id="c9">
+        <div class="text" id="t9" style="font-size:1.05rem;white-space:pre-line"></div>
+        <div class="author" id="a9"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="newPoem()" aria-label="Следующий стих">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 10. АФФИРМАЦИЯ -->
+  <div class="panel" id="p10">
+    <div class="card">
+      <div class="badge">напоминание</div>
+      <div class="content" id="c10">
+        <div class="text" id="t10" style="font-size:1.35rem;text-align:center"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="newAffirm()" aria-label="Следующая">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 11. МУЗЫКА -->
+  <div class="panel" id="p11">
+    <div class="card">
+      <div class="badge">музыка</div>
+      <div style="text-align:center">
+        <div style="font-size:2.5rem;margin-bottom:16px">🎧</div>
+        <div class="text" style="font-size:1rem;margin-bottom:8px">Lo-Fi поток</div>
+        <div class="color-desc" id="musicStatus" style="margin-top:8px">Нажмите Play</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn text-btn" id="musicToggle" onclick="toggleMusic()">▶ Play</button>
+    </div>
+  </div>
+
+</div>
+
+<nav class="tabbar">
+  <div class="tabbar-inner" id="tabbar"></div>
+</nav>
+
+<audio id="bgAudio" loop></audio>
+<audio id="lofiAudio" loop></audio>
+
+<script>
+// ============================================================
+// ДАННЫЕ
+// ============================================================
+const QUOTES = [
+  {t:"Мы не можем решить проблемы, используя тот же образ мышления, который их создал.",a:"Альберт Эйнштейн"},
+  {t:"Всё, что нас не убивает, делает нас сильнее.",a:"Фридрих Ницше"},
+  {t:"Счастье зависит от нас самих.",a:"Аристотель"},
+  {t:"Единственный способ делать великую работу — любить то, что ты делаешь.",a:"Стив Джобс"},
+  {t:"Жизнь — это то, что с нами происходит, пока мы строим планы.",a:"Джон Леннон"},
+  {t:"Не бойся, что не знаешь — бойся, что не учишься.",a:"Китайская мудрость"},
+  {t:"Мы то, что мы делаем постоянно. Совершенство — не действие, а привычка.",a:"Аристотель"},
+  {t:"Кто хочет — ищет возможности, кто не хочет — ищет причины.",a:"Сократ"},
+  {t:"Дорогу осилит идущий.",a:"Ригведа"},
+  {t:"Мудрый учится на своих ошибках, глупый — на чужих.",a:"Русская пословица"},
+  {t:"Человек, который никогда не ошибался, никогда не пробовал ничего нового.",a:"Альберт Эйнштейн"},
+  {t:"Мысль — самое могущественное оружие. Мы становимся тем, о чём думаем.",a:"Будда"},
+  {t:"Если хочешь изменить мир — начни с себя.",a:"Махатма Ганди"},
+  {t:"Время, потерянное с удовольствием, не потеряно.",a:"Джон Леннон"},
+  {t:"Успех — это способность идти от одной неудачи к другой, не теряя энтузиазма.",a:"Уинстон Черчилль"},
+  {t:"Никогда не поздно стать тем, кем ты мог бы быть.",a:"Джордж Элиот"},
+  {t:"Ты никогда не пересечёшь океан, если не наберёшься смелости потерять берег из виду.",a:"Христофор Колумб"},
+  {t:"В каждом человеке — солнце, только дайте ему светить.",a:"Сократ"},
+  {t:"Не бывает великих дел без великих препятствий.",a:"Вольтер"},
+  {t:"Важно не то, что с нами происходит, а то, как мы на это реагируем.",a:"Эпиктет"},
+  {t:"Молчание — иногда самый громкий ответ.",a:""},
+  {t:"Я не терпел поражений. Я просто нашёл 10 000 способов, которые не работают.",a:"Томас Эдисон"},
+  {t:"Лучший способ предсказать будущее — создать его.",a:"Питер Друкер"},
+  {t:"Упасть — не страшно. Страшно — не подняться.",a:"Конфуций"},
+  {t:"Всё, что ты можешь вообразить — реально.",a:"Пабло Пикассо"},
+  {t:"Дисциплина — это мост между целями и достижениями.",a:"Джим Рон"},
+  {t:"Будь тем изменением, которое ты хочешь видеть в мире.",a:"Махатма Ганди"},
+  {t:"Кто не рискует, тот не пьёт шампанского.",a:"Народная мудрость"},
+  {t:"Красота спасёт мир.",a:"Фёдор Достоевский"},
+  {t:"Рукописи не горят.",a:"Михаил Булгаков"},
+  {t:"Мы в ответе за тех, кого приручили.",a:"Антуан де Сент-Экзюпери"},
+  {t:"Жизнь коротка, но достаточно длинна, чтобы успеть сделать всё важное.",a:""},
+  {t:"Не позволяй вчерашнему дню занимать слишком много места в сегодняшнем.",a:""},
+  {t:"Лучше сделать и пожалеть, чем не сделать и жалеть всю жизнь.",a:""},
+  {t:"Если ты не можешь объяснить что-то просто, значит, ты сам этого не понимаешь.",a:""},
+  {t:"Ошибаться — это нормально. Ненормально — повторять одну и ту же ошибку.",a:""},
+  {t:"Счастье — это не отсутствие проблем, а умение с ними справляться.",a:""},
+  {t:"Иногда нужно просто остановиться, выдохнуть и посмотреть, куда ты идёшь.",a:""},
+  {t:"Никогда не сдавайся, потому что в самый тёмный час рассвет ближе всего.",a:""}
+];
+
+const JOKES = [
+  {t:"Только заметил, что слово «порно» набирается самыми центральными клавишами!"},
+  {t:"— Дорогая, ты меня сейчас просто убила. Ты болтала с подружкой всего 20 минут…\n— Да подожди ты, я номер неправильно набрала!"},
+  {t:"— Сынок, вставай. Поедем на дачу копать картошку.\n— Пап, ну 4 часа утра!\n— Вставай, вставай, сынок. Надо копать картошку.\n— Пап, у нас же нет дачи!\n— Это не значит, что нам не нужна картошка!"},
+  {t:"Еврейскому мальчику задают задачу:\n— У тебя есть шесть яблок, если ты отдашь половину брату, сколько останется?\n— Пять с половиной."},
+  {t:"Подходит мужик к песочнице, где играет маленькая девочка:\n— Девочка, хочешь конфетку?\n— Дяденька, вы педофил?\n— Нет.\n— Ну а смысл тогда?"},
+  {t:"Директор банка спрашивает поступающего на работу бухгалтера:\n— Сколько времени вы проработали на последнем месте работы?\n— Четыре года.\n— Неплохо. А почему уволились?\n— Амнистию объявили."},
+  {t:"— Доктор, я жить буду?\n— А смысл?"},
+  {t:"— Папа, а что такое «шок»?\n— Сынок, это когда ты заходишь в туалет, а там мама уже полы помыла."},
+  {t:"— Почему программисты путают Хэллоуин и Рождество?\n— Потому что OCT 31 == DEC 25."},
+  {t:"— Что сказал один байт другому?\n— Мне что-то нехорошо, у меня бит застрял."},
+  {t:"— Почему у программистов не бывает витаминного дефицита?\n— Потому что у них всегда есть C."},
+  {t:"— Что общего у программиста и кофе?\n— Оба не работают без кружки."},
+  {t:"— Почему программисты любят темноту?\n— Потому что свет привлекает баги."},
+  {t:"— Как программист называет свою кошку?\n— Ctrl."},
+  {t:"— Почему программисты любят шоколад?\n— Потому что он содержит C."}
+];
+
+const SAYINGS = [
+  "Без труда не выловишь и рыбку из пруда.","Что посеешь, то и пожнёшь.","Семь раз отмерь, один раз отрежь.",
+  "Тише едешь — дальше будешь.","Не всё то золото, что блестит.","Волков бояться — в лес не ходить.",
+  "Один в поле не воин.","Слово не воробей, вылетит — не поймаешь.","Утро вечера мудренее.",
+  "Глаза боятся, а руки делают.","Не рой другому яму — сам в неё попадёшь.","Дарёному коню в зубы не смотрят.",
+  "За двумя зайцами погонишься — ни одного не поймаешь.","Любишь кататься — люби и саночки возить.",
+  "Куй железо, пока горячо.","Терпение и труд всё перетрут.","Бережёного Бог бережёт.",
+  "На вкус и цвет товарищей нет.","Не в свои сани не садись.","У страха глаза велики."
+];
+
+const STATHAM = [
+  "Стетхем не носит часы. Он сам решает, сколько сейчас времени.",
+  "Стетхем досчитал до бесконечности. Дважды.",
+  "Когда Стетхем падает в воду, он не становится мокрым — это вода становится стетхемовой.",
+  "Стетхем однажды укусил кобру. После пяти дней мучительной агонии кобра умерла.",
+  "Слезы Стетхема лечат рак, но, к сожалению, он никогда не плачет.",
+  "Стетхем может делить на ноль.",
+  "Стетхем — единственный человек, который обыграл стену в теннис.",
+  "На самом деле Стетхем умер 20 лет назад. Просто Смерть боится ему об этом сказать.",
+  "Стетхем заразился коронавирусом. Через две недели коронавирус скончался.",
+  "Когда Стетхем наступает на Lego, Lego плачет.",
+  "Однажды Стетхем спас от удушья 200 человек. Он просто перестал их душить.",
+  "Сфинкса нос видел? Я сломал.","Мёртвое море знаете? Я убил.","Тихий океан знаешь? Я успокоил.",
+  "Видите три пирамиды? Четвёртую домой забрал на память.",
+  "В детстве под кроватью монстры проверяли, нет ли там Стетхема.",
+  "Одна ошибка — и ты ошибся.","Шаг влево, шаг вправо — два шага.",
+  "Человек меняется по двум причинам: или по первой, или по второй.",
+  "Если ты закроешь глаза — становится темно.","Три слова — это два слова.",
+  "Когда меня рожали, тогда я и родился.","Хожу дома в одних трусах, потому что в двух жарко.",
+  "Лучше выпить литр пива, чем не выпить литр пива.","Заблудился? Иди домой.",
+  "Как говорил мой дед: я твой дед.","Я не подкаблучник. Это наше совместное решение.",
+  "Хуже уже некуда, но я стараюсь.","Однажды я сделал зарядку в халате, и потом это назвали каратэ.",
+  "Если жизнь это вызов — то я перезвоню.","Среда формирует характер, но сегодня четверг.",
+  "С помощью дверей можно проходить сквозь стены.","Не бойся идти вперед, бойся забыть зачем пришел на кухню.",
+  "В аптеках не продают время, потому что оно не лечит.",
+  "Слабый ищет оправдания, сильный готовит их заранее.",
+  "Сделай шаг назад, потом два, потом три — и окажешься там, где был три шага назад.",
+  "Если тебе надоело сидеть без денег — вставай.","Завтра рано вставать, встану послезавтра.",
+  "Раньше я думал, что вечной любви не существует. Потом я встретил пиво.",
+  "Я всегда говорю правду, даже когда вру.","Сниму квартиру. Порядок на районе гарантирую.",
+  "Жизнь грустная, зато зарплата смешная.","Не бойся, когда ты один, бойся, когда ты два.",
+  "Кто понял жизнь — тот не спешит.","Тяжело смотреть в глаза, которые закрыты.",
+  "Чёрное море знаешь? Я очернил.","Снаружи я кажусь веселым, но внутри у меня пиво.",
+  "Тяжело быть пиздатым, но вам не понять.","Никогда не сдавайся, ты не квартира.",
+  "Если тебя помотала жизнь — отмотай её назад.","Устал сидеть без денег? Встань."
+];
+
+const NORRIS = [
+  "Слезы Чака Норриса лечат рак. Но он так крут, что никогда не плачет. Вообще.",
+  "Чак Норрис никогда не спит. Он выжидает.",
+  "Чак Норрис в настоящее время судится с каналом NBC, утверждая, что «Закон» и «Порядок» — это зарегистрированные товарные знаки его левой и правой ног.",
+  "Основной экспортируемый продукт Чака Норриса — страдания.",
+  "Если вы видите Чака Норриса, он видит вас. Если вы не видите Чака Норриса, возможно, вам осталось жить всего несколько секунд.",
+  "Чак Норрис досчитал до бесконечности. Дважды.",
+  "Чак Норрис не ходит на охоту, потому что слово «охотиться» подразумевает возможность неудачи. Чак Норрис ходит убивать.",
+  "Чак Норрис не стирает свою одежду, он потрошит ее.",
+  "Под бородой Чака Норриса нет подбородка, там еще один кулак.",
+  "Чак Норрис — единственный человек, который обыграл стену в теннис.",
+  "Когда Чак Норрис заходит в воду, он не становится мокрый — вода становится чакноррисовой!",
+  "У дома Чака Норриса нет дверей — только стены, сквозь которые он проходит.",
+  "Чак Норрис использует ночник не потому, что боится темноты, а потому, что темнота боится Чака Норриса.",
+  "Когда Бог сказал: «да будет свет!», Чак ответил: «скажи пожалуйста».",
+  "Чак Норрис может делить на ноль.",
+  "Великая Китайская стена была построена для защиты от Чака Норриса, но затея позорно провалилась.",
+  "Чак Норрис никогда не бреется — он просто бьет себя с ноги в лицо.",
+  "Единственная вещь способная порезать Чака Норриса — это Чак Норрис.",
+  "Оружия массового поражения не существует. Есть только Чак Норрис.",
+  "Нет никакой теории эволюции — просто список существ, которых Чак Норрис пощадил.",
+  "Обычная жилая комната насчитывает 1242 предмета, которыми Чак Норрис может убить тебя, включая саму комнату.",
+  "Чак Норрис может погнаться за двумя зайцами и поймать четырёх.",
+  "Супермен любит носить костюмы с Чаком Норрисом.",
+  "Смерть пришла к Чаку Норрису во сне. Иначе на тот свет отправилась бы она.",
+  "Чак Норрис не носит часы. Он сам решает, сколько сейчас времени.",
+  "Когда Чак Норрис отжимается, он не поднимает себя — он отталкивает Землю.",
+  "Чак Норрис не пользуется проверкой орфографии. Если он ошибётся в слове, Оксфорд изменит написание.",
+  "Чак Норрис устроил соревнование по гляделкам с солнцем — и выиграл.",
+  "Когда Чак Норрис переходит дорогу, машины смотрят в обе стороны.",
+  "Грипп каждый год делает прививку от Чака Норриса.",
+  "Когда Чак Норрис играет в вышибалы, мяч уворачивается от него.",
+  "Чак Норрис может стоять обеими ногами на земле и одновременно надирать задницы."
+];
+
+const WORDS = [
+  {w:"Эфемерный",p:"[ɪˈfɛmərnɨj]",pos:"прилагательное",d:"Нечто мимолётное, быстро исчезающее, недолговечное."},
+  {w:"Квинтэссенция",p:"[kvʲɪntɨˈsʲɛntsɨjə]",pos:"существительное",d:"Самая суть, основа чего-либо; пятый элемент в античной философии."},
+  {w:"Метаморфоза",p:"[mʲɪtəmɐrˈfozə]",pos:"существительное",d:"Полная, совершенная перемена, превращение."},
+  {w:"Абстракция",p:"[ɐpˈstraktsɨjə]",pos:"существительное",d:"Отвлечённое понятие, мысленная конструкция, не имеющая прямого аналога в реальности."},
+  {w:"Гармония",p:"[ɡɐrˈmonʲɪjə]",pos:"существительное",d:"Согласованность, стройность в сочетании чего-либо."},
+  {w:"Рефлексия",p:"[rʲɪˈflʲɛksʲɪjə]",pos:"существительное",d:"Способность человека анализировать собственные мысли и поступки."},
+  {w:"Парадокс",p:"[pərɐˈdoks]",pos:"существительное",d:"Суждение, противоречащее здравому смыслу, но содержащее истину."},
+  {w:"Катарсис",p:"[ˈkatərʲsʲɪs]",pos:"существительное",d:"Душевное очищение через сильное эмоциональное переживание."},
+  {w:"Эмпатия",p:"[ɪmˈpatʲɪjə]",pos:"существительное",d:"Способность понимать и чувствовать эмоции другого человека."},
+  {w:"Инсайт",p:"[ɪnˈsajt]",pos:"существительное",d:"Внезапное озарение, понимание сути проблемы."},
+  {w:"Аура",p:"[ˈaurə]",pos:"существительное",d:"Невидимое излучение, особое настроение вокруг человека или места."},
+  {w:"Флюид",p:"[flʲʊˈid]",pos:"существительное",d:"Нечто текучее, изменчивое; в психологии — гипотетическая невидимая субстанция."},
+  {w:"Нирвана",p:"[nʲɪrˈvanə]",pos:"существительное",d:"Состояние полного покоя, освобождения от страданий в буддизме."},
+  {w:"Хаос",p:"[ˈxaos]",pos:"существительное",d:"Беспорядок, неразбериха; в мифологии — изначальное состояние мира."},
+  {w:"Синергия",p:"[sʲɪˈnɛrɡʲɪjə]",pos:"существительное",d:"Совместное действие, дающее эффект больший, чем сумма частей."}
+];
+
+const COLORS = [
+  {h:"#E97451",n:"Терракота",d:"Тёплый, землистый. Уют осеннего вечера."},
+  {h:"#6A5ACD",n:"Фиалковый",d:"Мягкий, задумчивый. Цвет сумерек."},
+  {h:"#2E8B57",n:"Морская зелень",d:"Глубокий, спокойный. Лес после дождя."},
+  {h:"#FF7F50",n:"Коралловый",d:"Живой, тёплый. Закат на море."},
+  {h:"#4682B4",n:"Стальной синий",d:"Сдержанный, прохладный. Утренний туман."},
+  {h:"#DAA520",n:"Золотистый",d:"Сияющий, тёплый. Спелая пшеница."},
+  {h:"#8FBC8F",n:"Тёмный шалфей",d:"Приглушённый, природный. Мягкий мох."},
+  {h:"#CD853F",n:"Перу",d:"Пряный, землистый. Корица и специи."},
+  {h:"#B0C4DE",n:"Светлая сталь",d:"Лёгкий, воздушный. Зимнее небо."},
+  {h:"#DB7093",n:"Бледно-фиалковый",d:"Нежный, романтичный. Лепестки роз."},
+  {h:"#556B2F",n:"Тёмно-оливковый",d:"Глубокий, устойчивый. Вековая роща."},
+  {h:"#FFDAB9",n:"Персиковый",d:"Мягкий, тёплый. Кожа после солнца."},
+  {h:"#778899",n:"Светлый серо-голубой",d:"Нейтральный, спокойный. Морской бриз."},
+  {h:"#20B2AA",n:"Светло-морской",d:"Свежий, прохладный. Тропическая лагуна."},
+  {h:"#F4A460",n:"Песочно-коричневый",d:"Тёплый, естественный. Пляж на закате."}
+];
+
+const STEPS = [
+  {i:"💧",t:"Выпей стакан воды."},
+  {i:"🌬",t:"Сделай три глубоких вдоха."},
+  {i:"👀",t:"Посмотри в окно 30 секунд."},
+  {i:"🙆",t:"Разомни шею: медленно поверни голову влево и вправо."},
+  {i:"🧘",t:"Закрой глаза и посиди в тишине минуту."},
+  {i:"🚶",t:"Встань и пройдись по комнате."},
+  {i:"📱",t:"Отложи телефон на 5 минут."},
+  {i:"💭",t:"Назови три вещи, за которые ты благодарен сегодня."},
+  {i:"🖐",t:"Разомни пальцы: сожми и разожми кулаки 10 раз."},
+  {i:"🌿",t:"Посмотри на что-то зелёное 20 секунд."},
+  {i:"☕",t:"Сделай глоток чая или кофе осознанно."},
+  {i:"😌",t:"Расслабь плечи и опусти их вниз."},
+  {i:"🎵",t:"Послушай одну любимую песню."},
+  {i:"✍️",t:"Запиши одну мысль, которая тебя беспокоит."},
+  {i:"🌅",t:"Вспомни лучший момент этой недели."}
+];
+
+const AFFIRM = [
+  "Ты справляешься. Даже если кажется, что нет.",
+  "Дыши. Это всё, что нужно сейчас.",
+  "Это пройдёт. Всё всегда проходит.",
+  "Ты имеешь право на отдых.",
+  "Ты не обязан быть продуктивным каждую минуту.",
+  "Твои чувства имеют значение.",
+  "Ты можешь начать заново в любой момент.",
+  "Не сравнивай свой путь с чужим.",
+  "Сегодня достаточно просто быть.",
+  "Ты важен. Просто потому что ты есть.",
+  "Позволь себе не знать всех ответов.",
+  "Маленький шаг — тоже шаг.",
+  "Ты уже прошёл через многое. И справился.",
+  "Тишина — это тоже ответ.",
+  "Ты не один."
+];
+
+const ASTRO = [
+  "Нейтронная звезда может весить как 500 000 Земель, но поместиться в шар диаметром 20 км.",
+  "Свет от Солнца до Земли идёт 8 минут 20 секунд. Мы всегда видим прошлое.",
+  "В космосе есть облако спирта массой в 1000 солнечных систем.",
+  "Юпитер защищает Землю: его гравитация притягивает кометы и астероиды.",
+  "На Венере день длиннее года. Она вращается вокруг Солнца быстрее, чем вокруг оси.",
+  "Луна удаляется от Земли на 3,8 см в год. Через миллиарды лет она улетит.",
+  "В Млечном Пути от 100 до 400 миллиардов звёзд.",
+  "Самая высокая гора в Солнечной системе — Олимп на Марсе, 22 км.",
+  "Звук не проходит через вакуум. В космосе абсолютная тишина.",
+  "Белый карлик размером с Землю может весить как Солнце.",
+  "Кольца Сатурна состоят из льда и камня, от пылинок до глыб размером с дом.",
+  "Если бы Земля была размером с бильярдный шар, она была бы глаже его.",
+  "В центре галактики находится сверхмассивная чёрная дыра.",
+  "Космическое пространство расширяется быстрее скорости света на больших расстояниях.",
+  "На Титане, спутнике Сатурна, идут дожди из метана."
+];
+
+const POEMS = [
+  {t:"Я помню чудное мгновенье:\nПередо мной явилась ты,\nКак мимолётное виденье,\nКак гений чистой красоты.",a:"А. С. Пушкин"},
+  {t:"Ночь. Улица. Фонарь. Аптека.\nБессмысленный и тусклый свет.\nЖиви ещё хоть четверть века —\nВсё будет так. Исхода нет.",a:"А. А. Блок"},
+  {t:"Белеет парус одинокой\nВ тумане моря голубом!..\nЧто ищет он в стране далёкой?\nЧто кинул он в краю родном?..",a:"М. Ю. Лермонтов"},
+  {t:"Я пришёл к тебе с приветом,\nРассказать, что солнце встало,\nЧто оно горячим светом\nПо листам затрепетало.",a:"А. А. Фет"},
+  {t:"Вот моя деревня,\nВот мой дом родной,\nВот качусь я в санках\nПо горе крутой.",a:"И. З. Суриков"},
+  {t:"Мороз и солнце; день чудесный!\nЕщё ты дремлешь, друг прелестный —\nПора, красавица, проснись:\nОткрой сомкнуты негой взоры.",a:"А. С. Пушкин"},
+  {t:"И скучно и грустно, и некому руку подать\nВ минуту душевной невзгоды...\nЖеланья!.. что пользы напрасно и вечно желать?..\nА годы проходят — все лучшие годы!",a:"М. Ю. Лермонтов"},
+  {t:"О, как убийственно мы любим,\nКак в буйной слепоте страстей\nМы то всего вернее губим,\nЧто сердцу нашему милей!",a:"Ф. И. Тютчев"},
+  {t:"Я вас любил: любовь ещё, быть может,\nВ душе моей угасла не совсем;\nНо пусть она вас больше не тревожит;\nЯ не хочу печалить вас ничем.",a:"А. С. Пушкин"},
+  {t:"Средь шумного бала, случайно,\nВ тревоге мирской суеты,\nТебя я увидел, но тайна\nТвои покрывала черты.",a:"А. К. Толстой"}
+];
+
+// sounds-for-focus CDN base
+const SND = "https://cdn.jsdelivr.net/npm/sounds-for-focus@0.1.0/audio";
+const SOUNDS = {
+  rain:{label:"Дождь",url:SND+"/rain/light-rain.mp3"},
+  fire:{label:"Костёр",url:SND+"/places/campfire.mp3"},
+  forest:{label:"Лес",url:SND+"/nature/forest.mp3"},
+  urban:{label:"Улица",url:SND+"/urban/city-street.mp3"},
+  noise:{label:"Белый шум",url:SND+"/noise/white-noise.mp3"},
+  wind:{label:"Ветер",url:SND+"/nature/wind.mp3"}
+};
+
+const LOFI_STREAMS = [
+  'https://live.lofiradio.ru/lofi_mp3_128',
+  'https://strm112.1.fm/lofi_mobile_mp3',
+  'https://stream.zeno.fm/0r0xa792kwzuv',
+  'https://ice5.somafm.com/groovesalad-128-aac',
+  'https://ice2.somafm.com/groovesalad-128-aac',
+  'https://streams.ilovemusic.de/iloveradio17.mp3',
+  'https://stream.bigfm.de/lofifocus/mp3-128/radiobrowser',
+  'https://listen.reyfm.de/lofi_320kbps.mp3'
+];
+
+// ============================================================
+// ВКЛАДКИ
+// ============================================================
+const TABS = [
+  {id:0,label:"Цитатник",icon:"📖"},
+  {id:1,label:"Шум",icon:"🎨"},
+  {id:2,label:"Слово",icon:"📝"},
+  {id:3,label:"Дыхание",icon:"🫁"},
+  {id:4,label:"Цвет",icon:"🎨"},
+  {id:5,label:"Кадр",icon:"📷"},
+  {id:6,label:"Шаг",icon:"👣"},
+  {id:7,label:"Звук",icon:"🎵"},
+  {id:8,label:"Космос",icon:"🪐"},
+  {id:9,label:"Стих",icon:"📜"},
+  {id:10,label:"Напоминание",icon:"💭"},
+  {id:11,label:"Музыка",icon:"🎧"}
+];
+
+let currentTab = parseInt(localStorage.getItem('tab') || '0');
+let timers = {};
+let audioEl = document.getElementById('bgAudio');
+let lofiEl = document.getElementById('lofiAudio');
+
+function buildTabs(){
+  document.getElementById('tabbar').innerHTML = TABS.map(t=>`
+    <button class="tab ${t.id===currentTab?'active':''}" data-id="${t.id}" onclick="switchTab(${t.id})">
+      <span class="icon">${t.icon}</span>
+      <span class="label">${t.label}</span>
+    </button>
+  `).join('');
+}
+
+function switchTab(id){
+  currentTab = id;
+  localStorage.setItem('tab', id);
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', parseInt(t.dataset.id)===id));
+  initTab(id);
+}
+
+function initTab(id){
+  switch(id){
+    case 0: resetQuoteTimer(); break;
+    case 3: stopBreath(); break;
+    case 6: newStep(); break;
+  }
+}
+
+// ============================================================
+// 0. ЦИТАТНИК
+// ============================================================
+const ALL = [
+  ...QUOTES.map(q=>({t:q.t,a:q.a,type:"мысль"})),
+  ...JOKES.map(j=>({t:j.t,a:"",type:"шутка"})),
+  ...SAYINGS.map(s=>({t:s,a:"",type:"поговорка"})),
+  ...STATHAM.map(s=>({t:s,a:"",type:"Стетхем"})),
+  ...NORRIS.map(n=>({t:n,a:"",type:"Норрис"}))
+];
+let shuffled = [...ALL].sort(()=>Math.random()-0.5);
+let qi = 0;
+
+function showQuote(i){
+  const item = shuffled[i % shuffled.length];
+  const c = document.getElementById('c0');
+  c.classList.add('exit');
+  setTimeout(()=>{
+    document.getElementById('t0').textContent = item.t;
+    document.getElementById('a0').textContent = item.a;
+    document.getElementById('badge0').textContent = item.type;
+    c.classList.remove('exit'); c.classList.add('enter');
+    void c.offsetHeight;
+    c.classList.remove('enter');
+  },450);
+}
+
+function nextTab(which){
+  if(which===0){
+    qi = (qi+1)%shuffled.length;
+    showQuote(qi);
+    resetQuoteTimer();
+  }
+}
+
+function resetQuoteTimer(){
+  clearInterval(timers.quote);
+  let left = 60;
+  const el = document.getElementById('tmr0');
+  const upd = ()=>{ el.textContent = `следующая через ${left} сек`; };
+  upd();
+  timers.quote = setInterval(()=>{
+    left--; upd();
+    if(left<=0){ qi=(qi+1)%shuffled.length; showQuote(qi); left=60; }
+  },1000);
+}
+
+// ============================================================
+// 1. ВИЗУАЛЬНЫЙ ШУМ
+// ============================================================
+function newNoise(){
+  const h1 = Math.floor(Math.random()*360);
+  const h2 = (h1 + 60 + Math.floor(Math.random()*120)) % 360;
+  const c1 = `hsl(${h1}, ${40+Math.random()*30}%, ${20+Math.random()*25}%)`;
+  const c2 = `hsl(${h2}, ${50+Math.random()*30}%, ${35+Math.random()*30}%)`;
+  const angle = Math.floor(Math.random()*360);
+  const el = document.getElementById('noise');
+  el.style.background = `linear-gradient(${angle}deg, ${c1}, ${c2})`;
+  el.style.boxShadow = `0 0 60px ${c2}33`;
+}
+newNoise();
+
+// ============================================================
+// 2. СЛОВО
+// ============================================================
+function newWord(){
+  const w = WORDS[Math.floor(Math.random()*WORDS.length)];
+  const c = document.getElementById('c2');
+  c.classList.add('exit');
+  setTimeout(()=>{
+    document.getElementById('w2').textContent = w.w;
+    document.getElementById('wp2').textContent = w.p;
+    document.getElementById('wpos2').textContent = w.pos;
+    document.getElementById('wd2').textContent = w.d;
+    c.classList.remove('exit'); c.classList.add('enter');
+    void c.offsetHeight; c.classList.remove('enter');
+  },400);
+}
+newWord();
+
+// ============================================================
+// 3. ДЫХАНИЕ
+// ============================================================
+let breathTimer = null, breathPhase = 0;
+const PHASES = [
+  {cls:'inhale', label:'Вдох', dur:4000},
+  {cls:'', label:'Задержка', dur:4000},
+  {cls:'exhale', label:'Выдох', dur:4000},
+  {cls:'', label:'Задержка', dur:4000}
+];
+
+function toggleBreath(){
+  if(breathTimer){ stopBreath(); return; }
+  document.getElementById('breathBtn').textContent = '■ Стоп';
+  breathPhase = 0;
+  runBreathPhase();
+}
+
+function runBreathPhase(){
+  const p = PHASES[breathPhase];
+  const ring = document.getElementById('ring');
+  const label = document.getElementById('blabel');
+  ring.className = 'breath-ring ' + p.cls;
+  label.textContent = p.label;
+  breathTimer = setTimeout(()=>{
+    breathPhase = (breathPhase+1) % PHASES.length;
+    runBreathPhase();
+  }, p.dur);
+}
+
+function stopBreath(){
+  clearTimeout(breathTimer);
+  breathTimer = null;
+  document.getElementById('ring').className = 'breath-ring';
+  document.getElementById('blabel').textContent = 'Нажмите старт';
+  document.getElementById('breathBtn').textContent = '▶ Старт';
+}
+
+// ============================================================
+// 4. ЦВЕТ ДНЯ
+// ============================================================
+function initColor(){
+  const day = new Date().getDate();
+  const c = COLORS[day % COLORS.length];
+  document.getElementById('swatch').style.background = c.h;
+  document.getElementById('swatch').style.boxShadow = `0 0 40px ${c.h}44`;
+  document.getElementById('cname').textContent = c.n;
+  document.getElementById('chex').textContent = c.h;
+  document.getElementById('cdesc').textContent = c.d;
+}
+initColor();
+
+// ============================================================
+// 5. ФОТО — Picsum
+// ============================================================
+async function newPhoto(){
+  const img = document.getElementById('photoImg');
+  const cap = document.getElementById('photoCap');
+  cap.textContent = 'Загрузка...';
+  try{
+    const r = await fetch('https://picsum.photos/v2/list?page=' + Math.floor(Math.random()*20+1) + '&limit=1');
+    const d = await r.json();
+    const photo = d[0];
+    if(!photo) throw new Error('нет фото');
+    img.src = `https://picsum.photos/id/${photo.id}/800/600`;
+    img.onload = () => { cap.textContent = photo.author; };
+    img.onerror = () => { cap.textContent = 'Фото не загрузилось'; };
+  }catch(e){
+    img.src = '';
+    cap.textContent = 'Не удалось загрузить. Проверьте интернет.';
+  }
+}
+newPhoto();
+
+// ============================================================
+// 6. ШАГ
+// ============================================================
+let stepIdx = 0;
+function newStep(){
+  stepIdx = Math.floor(Math.random()*STEPS.length);
+  const s = STEPS[stepIdx];
+  document.getElementById('si6').textContent = s.i;
+  document.getElementById('st6').textContent = s.t;
+  document.getElementById('sd6').style.display = 'inline-flex';
+  document.getElementById('sd6').textContent = '✓ Сделано';
+  document.getElementById('sd6').style.background = 'var(--accent)';
+  document.getElementById('sd6').style.color = 'var(--bg)';
+}
+function markDone(){
+  document.getElementById('sd6').textContent = '✓ Готово';
+  document.getElementById('sd6').style.background = 'var(--accent-dim)';
+  document.getElementById('sd6').style.color = 'var(--accent)';
+}
+
+// ============================================================
+// 7. ЗВУК
+// ============================================================
+let currentSound = null;
+function buildSounds(){
+  document.getElementById('soundGrid').innerHTML = Object.entries(SOUNDS).map(([k,v])=>
+    `<button class="sound-chip" data-key="${k}" onclick="playSound('${k}')">${v.label}</button>`
+  ).join('');
+}
+buildSounds();
+
+function playSound(key){
+  const s = SOUNDS[key];
+  if(!s) return;
+  if(currentSound === key){ stopSound(); return; }
+  audioEl.src = s.url;
+  audioEl.play().catch(()=>{});
+  currentSound = key;
+  document.querySelectorAll('.sound-chip').forEach(c=>c.classList.toggle('on', c.dataset.key===key));
+  document.getElementById('soundStop').style.display = 'flex';
+}
+
+function stopSound(){
+  audioEl.pause();
+  audioEl.src = '';
+  currentSound = null;
+  document.querySelectorAll('.sound-chip').forEach(c=>c.classList.remove('on'));
+  document.getElementById('soundStop').style.display = 'none';
+}
+
+// ============================================================
+// 8. АСТРО
+// ============================================================
+function newAstro(){
+  const f = ASTRO[Math.floor(Math.random()*ASTRO.length)];
+  const c = document.getElementById('c8');
+  c.classList.add('exit');
+  setTimeout(()=>{
+    document.getElementById('t8').textContent = f;
+    c.classList.remove('exit'); c.classList.add('enter');
+    void c.offsetHeight; c.classList.remove('enter');
+  },400);
+}
+newAstro();
+
+// ============================================================
+// 9. СТИХ
+// ============================================================
+function newPoem(){
+  const p = POEMS[Math.floor(Math.random()*POEMS.length)];
+  const c = document.getElementById('c9');
+  c.classList.add('exit');
+  setTimeout(()=>{
+    document.getElementById('t9').textContent = p.t;
+    document.getElementById('a9').textContent = p.a;
+    c.classList.remove('exit'); c.classList.add('enter');
+    void c.offsetHeight; c.classList.remove('enter');
+  },400);
+}
+newPoem();
+
+// ============================================================
+// 10. АФФИРМАЦИЯ
+// ============================================================
+function newAffirm(){
+  const a = AFFIRM[Math.floor(Math.random()*AFFIRM.length)];
+  const c = document.getElementById('c10');
+  c.classList.add('exit');
+  setTimeout(()=>{
+    document.getElementById('t10').textContent = a;
+    c.classList.remove('exit'); c.classList.add('enter');
+    void c.offsetHeight; c.classList.remove('enter');
+  },400);
+}
+newAffirm();
+
+// ============================================================
+// 11. МУЗЫКА
+// ============================================================
+let lofiPlaying = false;
+let lofiIdx = 0;
+let lofiRetries = 0;
+
+function toggleMusic(){
+  if(lofiPlaying){ stopLofi(); }
+  else { startLofi(); }
+}
+
+function startLofi(){
+  lofiRetries = 0;
+  lofiEl.src = LOFI_STREAMS[lofiIdx];
+  lofiEl.play().then(()=>{
+    lofiPlaying = true;
+    document.getElementById('musicToggle').textContent = '■ Стоп';
+    document.getElementById('musicStatus').textContent = 'Играет...';
+  }).catch(()=>{
+    tryNextLofi();
+  });
+}
+
+function tryNextLofi(){
+  if(lofiRetries >= 3){ stopLofi(); document.getElementById('musicStatus').textContent = 'Потоки недоступны'; return; }
+  lofiRetries++;
+  lofiIdx = (lofiIdx + 1) % LOFI_STREAMS.length;
+  lofiEl.src = LOFI_STREAMS[lofiIdx];
+  lofiEl.play().catch(()=>setTimeout(tryNextLofi, 2000));
+}
+
+function stopLofi(){
+  lofiEl.pause();
+  lofiEl.src = '';
+  lofiPlaying = false;
+  document.getElementById('musicToggle').textContent = '▶ Play';
+  document.getElementById('musicStatus').textContent = 'Нажмите Play';
+}
+
+lofiEl.addEventListener('error', tryNextLofi);
+lofiEl.addEventListener('playing', ()=>{ lofiRetries = 0; });
+
+// ============================================================
+// СТАРТ
+// ============================================================
+buildTabs();
+switchTab(currentTab);
+showQuote(0);
+resetQuoteTimer();
+</script>
+
+</body>
+</html>
