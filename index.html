@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-<meta name="theme-color" content="#f4f1ed">
+<meta name="theme-color" content="#252d2b">
 <title>chill. — тихая пауза</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,7 +156,7 @@ body{
 :root{--bg:#f4f1ed;--surface:rgba(255,255,255,.82);--surface-2:#eeeaeb;--text:#393840;--muted:#777680;--dim:#96929a;--accent:#8580a8;--accent-dim:rgba(133,128,168,.10);--accent-glow:rgba(133,128,168,.16);--border:rgba(87,82,103,.12);--border-2:rgba(133,128,168,.32);--radius:22px;--t:all .28s cubic-bezier(.2,.65,.3,1)}
 html{background:var(--bg);scroll-behavior:smooth}body{background:radial-gradient(ellipse at 12% 0%,rgba(218,210,226,.38),transparent 38%),radial-gradient(ellipse at 95% 100%,rgba(211,222,225,.34),transparent 35%),var(--bg);color:var(--text);padding:0 0 calc(20px + var(--safe-b))}
 .stage{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));align-content:start;align-items:stretch;gap:18px;max-width:1240px;margin:0 auto;padding:34px 28px 44px}
-.panel{display:block;width:100%;max-width:none;min-width:0;animation:panelIn .28s ease both}.panel.active{display:block}#p1,#p4,#p5{display:none!important}
+.panel{display:block;width:100%;max-width:none;min-width:0;animation:panelIn .28s ease both}.panel.active{display:block}#p1,#p4,#p5,#p11{display:none!important}
 .card{height:100%;min-height:0;padding:30px;background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:0 14px 45px rgba(67,60,70,.045);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);justify-content:center}
 .card:before{width:2px;background:linear-gradient(to bottom,rgba(133,128,168,.55),transparent 90%)}.card:after{width:100px;height:100px;background:radial-gradient(circle at bottom right,rgba(133,128,168,.07),transparent 72%)}.card:hover{border-color:var(--border-2);box-shadow:0 18px 48px rgba(67,60,70,.06)}
 .text,.word-big,.step-text,.color-name{color:var(--text)}.text{font-size:clamp(1.08rem,1.55vw,1.4rem);line-height:1.6}.text:before,.author:before{color:var(--accent);background:var(--accent)}.badge{color:#77718f;background:rgba(133,128,168,.08);border-color:rgba(133,128,168,.18)}
@@ -167,6 +167,111 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:radial-gradient
 @media(max-width:760px){body{padding:0 0 calc(76px + var(--safe-b))}.stage{display:block;padding:22px 14px 30px}.panel{display:none!important;max-width:620px;margin:0 auto}.panel.active{display:block!important}.card{padding:38px 24px;min-height:230px}.tabbar{display:flex;padding-bottom:calc(8px + var(--safe-b));background:linear-gradient(to top,rgba(244,241,237,.98) 70%,transparent)}.tabbar-inner{gap:5px;padding-top:8px}.tab{background:rgba(255,255,255,.85);border-color:var(--border);color:var(--muted);border-radius:14px 14px 0 0;padding:10px 13px}.tab.active{background:#fff;border-color:var(--border-2);color:#716b91;box-shadow:0 -3px 16px rgba(87,82,103,.05)}.tab .label{display:inline}.tab .icon{font-size:.95rem}.sound-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.audio-footer{align-items:flex-start;flex-direction:column}.audio-footer .btn{align-self:flex-start}.breath-ring{width:150px;height:150px}.text{font-size:1.1rem}}
 @media(max-width:390px){.tab{padding:9px 10px}.tab .label{font-size:.64rem}.card{padding:32px 19px}.sound-chip{font-size:.7rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* ECO COMPACT — final overrides */
+:root{--bg:#FAF7F2;--surface:#fffdf9;--surface-2:#F2EFEA;--text:#4A4A4A;--muted:#77766f;--dim:#9a978e;--accent:#7FBF90;--accent-dim:rgba(127,191,144,.16);--accent-glow:rgba(127,191,144,.22);--border:rgba(74,74,74,.12);--border-2:rgba(127,191,144,.55);--radius:17px}
+html,body{background:var(--bg);color:var(--text)}body{padding:0;min-height:100vh;background:var(--bg)}
+.stage{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:1440px;padding:16px 18px 24px;align-content:start}
+.panel{grid-column:span 1!important;grid-row:auto!important;cursor:pointer}
+.card{padding:18px;min-height:150px;border-radius:17px;background:var(--surface);box-shadow:0 4px 16px rgba(74,74,74,.035);backdrop-filter:none;-webkit-backdrop-filter:none}
+.card:before{background:linear-gradient(to bottom,var(--accent),transparent 90%)}.card:after{display:none}
+.card:hover{border-color:var(--border-2);box-shadow:0 7px 20px rgba(74,74,74,.06)}
+.text{font-size:clamp(.92rem,1.05vw,1.12rem);line-height:1.48;margin-bottom:10px;color:var(--text)}.text:before{color:var(--accent)}
+.badge{top:12px;right:14px;font-size:.55rem;padding:4px 8px;color:#587561;background:rgba(127,191,144,.12);border-color:rgba(127,191,144,.28)}
+.author{font-size:.75rem}.actions{display:none!important}.timer{font-size:.65rem;margin-top:8px}
+.btn,.step-done{background:var(--accent);color:#fff;border-color:var(--accent)}.btn:hover,.step-done:hover{background:#6eac80;color:white;box-shadow:none}
+.word-big{font-size:1.5rem}.word-def{font-size:.9rem;line-height:1.45}.step-icon{font-size:1.6rem;margin-bottom:6px}.step-text{font-size:.95rem;line-height:1.4;margin-bottom:12px}.step-done{padding:7px 14px;font-size:.72rem}
+.breath-wrap{gap:14px}.breath-ring{width:100px;height:100px;border-color:rgba(127,191,144,.55);background:radial-gradient(circle,rgba(127,191,144,.14),transparent 72%)}.breath-ring:after{border-color:rgba(127,191,144,.4)}.breath-label,.word-pron{color:#5f9970}.breath-hint{font-size:.68rem}
+#p7{grid-column:1/-1!important;grid-row:1!important}#p10{grid-column:span 1!important;grid-row:2!important}#p6{grid-column:span 1!important;grid-row:2!important}#p0{grid-column:span 1!important;grid-row:3!important}#p2{grid-column:span 1!important;grid-row:3!important}#p3{grid-column:span 1!important;grid-row:3!important}#p8{grid-column:span 1!important;grid-row:4!important}#p9{grid-column:span 2!important;grid-row:4!important}
+#p7 .card{padding:17px 20px;min-height:0}#p7 .text{margin-bottom:4px}.sound-grid{grid-template-columns:repeat(8,minmax(0,1fr));gap:7px;margin-top:10px}.sound-chip{padding:10px 6px;font-size:.72rem;border-radius:11px;background:var(--surface-2);color:var(--text);border-color:var(--border)}.sound-chip.on{background:var(--accent-dim);border-color:var(--accent);color:#426c4e}
+.audio-footer{margin-top:10px;padding-top:10px}.audio-footer .btn{width:auto;height:auto;padding:8px 14px;border-radius:100px;font-size:.72rem}.audio-footer strong{font-size:.78rem}.audio-footer span{font-size:.68rem}.sound-controls{display:none!important}
+.quote-filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;padding-right:64px}.quote-filter{display:inline-flex;align-items:center;gap:5px;font-size:.67rem;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);padding:5px 8px;border-radius:9px;cursor:pointer}.quote-filter input{accent-color:var(--accent);width:13px;height:13px;margin:0}
+#p0 .card{min-height:180px}#p3 .card{min-height:180px}#p8 .card,#p9 .card{min-height:160px}
+@media(max-width:900px){.stage{grid-template-columns:repeat(2,minmax(0,1fr));padding:12px;gap:10px}.sound-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:680px){body{padding:0 0 calc(68px + var(--safe-b))}.stage{display:block;padding:14px 12px 24px}.panel{display:none!important;max-width:620px;margin:0 auto}.panel.active{display:block!important}.card{padding:24px 18px;min-height:190px}.tabbar{display:flex;background:linear-gradient(to top,rgba(250,247,242,.98) 70%,transparent)}.tab{background:var(--surface);border-color:var(--border);color:var(--muted)}.tab.active{background:var(--surface);border-color:var(--border-2);color:#426c4e;box-shadow:none}.tab .label{display:inline}.sound-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.audio-footer{align-items:center;flex-direction:row}.audio-footer .btn{align-self:auto}.breath-ring{width:130px;height:130px}.text{font-size:1.08rem}.quote-filters{padding-right:0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+/* Final compact eco layout */
+:root{--bg:#FAF7F2;--surface:#fffdf9;--surface-2:#F2EFEA;--text:#4A4A4A;--muted:#77766f;--dim:#9a978e;--accent:#7FBF90;--accent-dim:rgba(127,191,144,.16);--accent-glow:rgba(127,191,144,.22);--border:rgba(74,74,74,.12);--border-2:rgba(127,191,144,.55)}
+body{background:var(--bg);color:var(--text)}.stage{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:1500px;padding:12px 14px 20px;align-content:start;align-items:stretch}
+.panel{grid-column:span 1!important;grid-row:auto!important;cursor:pointer;min-width:0}.card{padding:15px;min-height:130px;border-radius:15px;background:var(--surface);box-shadow:0 3px 12px rgba(74,74,74,.035)}
+#p7{grid-column:1/-1!important;grid-row:1!important}#p6{grid-column:span 2!important;grid-row:2!important}#p10{grid-column:span 2!important;grid-row:2!important}
+#p0{grid-column:span 2!important;grid-row:3!important}#p2{grid-column:span 1!important;grid-row:3!important}#p3{grid-column:span 1!important;grid-row:3!important}
+#p8{grid-column:span 2!important;grid-row:4!important}#p9{grid-column:span 2!important;grid-row:4!important}
+#p7 .card{padding:14px 16px;min-height:0}#p0 .card,#p6 .card,#p10 .card{min-height:155px}#p3 .card{min-height:155px}.text{font-size:clamp(.86rem,1vw,1.04rem);line-height:1.42;margin-bottom:8px}.word-big{font-size:1.3rem}.word-def{font-size:.82rem}.step-icon{font-size:1.35rem}.step-text{font-size:.88rem;margin-bottom:8px}.badge{top:9px;right:11px}.quote-filters{gap:4px;margin-bottom:8px;padding-right:0}.quote-filter{font-size:.61rem;padding:4px 6px}.quote-filter input{width:12px;height:12px}.sound-grid{grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin-top:8px}.sound-chip{padding:9px 4px;font-size:.68rem}.audio-footer{margin-top:8px;padding-top:8px}.audio-footer span{font-size:.66rem}
+@media(max-width:1000px){.stage{grid-template-columns:repeat(3,minmax(0,1fr))}.sound-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:760px){body{padding:0 0 calc(72px + var(--safe-b))}.stage{display:block;padding:12px 10px 22px}.panel{display:none!important;max-width:620px;margin:0 auto}.panel.active{display:block!important}.card{padding:24px 17px;min-height:175px}.tabbar{display:flex;background:linear-gradient(to top,rgba(250,247,242,.98) 70%,transparent)}.tab{background:var(--surface);border-color:var(--border);color:var(--muted)}.tab.active{background:var(--surface);border-color:var(--border-2);color:#426c4e;box-shadow:none}.tab .label{display:inline}.sound-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.audio-footer{align-items:flex-start;flex-direction:column}.breath-ring{width:125px;height:125px}.text{font-size:1rem}.quote-filters{padding-right:0}}
+
+
+/* NORDIC WINTER FOREST — low-glare palette and responsive refinements */
+:root{
+  color-scheme:dark;
+  --bg:#252d2b;
+  --surface:#303936;
+  --surface-2:#39433e;
+  --text:#d8ddd6;
+  --muted:#a5afa6;
+  --dim:#87938a;
+  --accent:#9bb8a2;
+  --accent-dim:rgba(155,184,162,.13);
+  --accent-glow:rgba(155,184,162,.16);
+  --border:rgba(207,218,207,.12);
+  --border-2:rgba(155,184,162,.38);
+  --radius:15px;
+}
+html,body{background:var(--bg)!important;color:var(--text)!important}
+body{background:linear-gradient(180deg,#252d2b 0%,#222a28 100%)!important}
+.stage{background:transparent;gap:10px;padding:12px 14px 22px}
+.card{background:var(--surface)!important;border-color:var(--border)!important;box-shadow:0 3px 12px rgba(0,0,0,.08)!important}
+.card:before{background:linear-gradient(to bottom,rgba(155,184,162,.6),transparent 90%)!important}
+.card:hover{border-color:var(--border-2)!important;box-shadow:0 5px 16px rgba(0,0,0,.12)!important}
+.text,.step-text,.word-big,.color-name{color:var(--text)!important}
+.badge{color:#b7cdbb!important;background:rgba(155,184,162,.09)!important;border-color:rgba(155,184,162,.2)!important}
+.btn,.step-done{background:#718f79!important;border-color:#718f79!important;color:#f0f3ee!important}
+.btn:hover,.step-done:hover{background:#819d88!important;border-color:#819d88!important;color:#f8faf6!important}
+.sound-chip{background:var(--surface-2)!important;color:var(--text)!important;border-color:var(--border)!important}
+.sound-chip:hover{background:#424e47!important}
+.sound-chip.on{background:rgba(155,184,162,.16)!important;color:#c4dbc8!important;border-color:#9bb8a2!important}
+.quote-filter{background:var(--surface-2)!important;color:var(--muted)!important;border-color:var(--border)!important}
+.quote-filter:has(input:checked){color:#c4dbc8!important;border-color:var(--border-2)!important}
+.breath-ring{border-color:rgba(155,184,162,.42)!important;background:radial-gradient(circle,rgba(155,184,162,.12),transparent 72%)!important}
+.breath-ring:after{border-color:rgba(155,184,162,.28)!important}
+.breath-label,.word-pron{color:#b1cbb6!important}
+.color-swatch{border-color:var(--border)!important}
+.tabbar{background:linear-gradient(to top,rgba(37,45,43,.98) 70%,transparent)!important}
+.tab{background:#303936!important;border-color:var(--border)!important;color:var(--muted)!important}
+.tab.active{background:#39433e!important;border-color:var(--border-2)!important;color:#c4dbc8!important;box-shadow:none!important}
+.author,.timer,.breath-hint,.color-desc,.photo-cap{color:var(--muted)!important}
+@media(max-width:760px){
+  body{padding-bottom:calc(78px + var(--safe-b))!important}
+  .stage{padding:12px 10px 20px!important}
+  .panel{width:100%;max-width:620px;margin:0 auto}
+  .card{padding:25px 18px!important;min-height:0!important;border-radius:15px!important}
+  #p0 .card,#p3 .card,#p6 .card,#p10 .card{min-height:0!important}
+  #p7 .card{padding:17px 15px!important}
+  .text{font-size:1rem!important;line-height:1.55!important}
+  .quote-filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;padding:0}
+  .quote-filter{font-size:.72rem;padding:7px 9px;min-height:32px}
+  .sound-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .sound-chip{min-height:42px;padding:10px 7px!important;font-size:.78rem!important}
+  .audio-footer{align-items:flex-start!important;flex-direction:column!important;gap:8px}
+  .audio-footer .btn{align-self:flex-start!important;min-height:40px}
+  .tabbar{padding-left:6px!important;padding-right:6px!important;padding-bottom:calc(7px + var(--safe-b))!important}
+  .tabbar-inner{max-width:100%;width:100%;overflow-x:auto;overscroll-behavior-x:contain;gap:4px;padding:8px 3px 0}
+  .tab{flex:0 0 auto;padding:10px 11px!important;min-height:42px;border-radius:12px 12px 0 0!important}
+  .tab .label{font-size:.7rem!important}
+  .breath-ring{width:126px!important;height:126px!important}
+}
+@media(max-width:380px){
+  .stage{padding:10px 8px 18px!important}
+  .card{padding:22px 15px!important}
+  .tab{padding:9px 9px!important}
+  .tab .label{font-size:.66rem!important}
+  .quote-filter{font-size:.68rem;padding:6px 7px}
+}
+@media(min-width:761px){.tabbar{display:none!important}}
+
 </style>
 </head>
 <body>
@@ -175,19 +280,20 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:radial-gradient
 
   <!-- 0. ЦИТАТНИК -->
   <div class="panel active" id="p0">
-    <div class="card">
+    <div class="card" onclick="nextTab(0)">
       <div class="badge" id="badge0">мысль</div>
+      <div class="quote-filters" onclick="event.stopPropagation()">
+        <label class="quote-filter"><input type="checkbox" data-quote-type="мысль" checked onchange="updateQuoteFilters()"> Мысли</label>
+        <label class="quote-filter"><input type="checkbox" data-quote-type="шутка" checked onchange="updateQuoteFilters()"> Шутки</label>
+        <label class="quote-filter"><input type="checkbox" data-quote-type="поговорка" checked onchange="updateQuoteFilters()"> Пословицы</label>
+        <label class="quote-filter"><input type="checkbox" data-quote-type="Стетхем" checked onchange="updateQuoteFilters()"> Стетхем</label>
+        <label class="quote-filter"><input type="checkbox" data-quote-type="Норрис" checked onchange="updateQuoteFilters()"> Норрис</label>
+      </div>
       <div class="content" id="c0">
         <div class="text" id="t0"></div>
         <div class="author" id="a0"></div>
       </div>
     </div>
-    <div class="actions">
-      <button class="btn" onclick="nextTab(0)" aria-label="Следующая">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </div>
-    <div class="timer" id="tmr0"></div>
   </div>
 
   <!-- 1. ВИЗУАЛЬНЫЙ ШУМ -->
@@ -197,16 +303,11 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:radial-gradient
       <div id="noise" style="width:100%;height:220px;border-radius:16px;transition:background 1.2s ease"></div>
       <div class="color-desc" style="text-align:center;margin-top:16px">Случайный градиент</div>
     </div>
-    <div class="actions">
-      <button class="btn" onclick="newNoise()" aria-label="Новый шум">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </div>
   </div>
 
   <!-- 2. СЛОВО -->
   <div class="panel" id="p2">
-    <div class="card">
+    <div class="card" onclick="newWord()">
       <div class="badge">слово</div>
       <div class="content" id="c2">
         <div class="word-big" id="w2"></div>
@@ -215,25 +316,17 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:radial-gradient
         <div class="word-def" id="wd2"></div>
       </div>
     </div>
-    <div class="actions">
-      <button class="btn" onclick="newWord()" aria-label="Следующее слово">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </div>
   </div>
 
   <!-- 3. ДЫХАНИЕ -->
   <div class="panel" id="p3">
-    <div class="card">
+    <div class="card" onclick="toggleBreath()">
       <div class="badge">дыхание</div>
       <div class="breath-wrap">
         <div class="breath-ring" id="ring"></div>
         <div class="breath-label" id="blabel">Нажмите старт</div>
         <div class="breath-hint">4 секунды вдох · 4 задержка · 4 выдох</div>
       </div>
-    </div>
-    <div class="actions">
-      <button class="btn text-btn" id="breathBtn" onclick="toggleBreath()">▶ Старт</button>
     </div>
   </div>
 
@@ -257,11 +350,6 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:radial-gradient
       </div>
       <div class="photo-cap" id="photoCap">Загрузка...</div>
     </div>
-    <div class="actions">
-      <button class="btn" onclick="newPhoto()" aria-label="Новое фото">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </div>
   </div>
 
   <!-- 6. ШАГ ЗА ШАГОМ -->
@@ -271,72 +359,50 @@ html{background:var(--bg);scroll-behavior:smooth}body{background:radial-gradient
       <div class="content" id="c6">
         <div class="step-icon" id="si6"></div>
         <div class="step-text" id="st6"></div>
-        <button class="step-done" id="sd6" onclick="markDone()">✓ Сделано</button>
+        <button class="step-done" id="sd6" onclick="event.stopPropagation();markDone()">✓ Сделано</button>
       </div>
-    </div>
-    <div class="actions">
-      <button class="btn" onclick="newStep()" aria-label="Следующий шаг">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
     </div>
   </div>
 
   <!-- 7. ЗВУК -->
   <div class="panel" id="p7">
     <div class="card">
-      <div class="badge">звук</div>
+      <div class="badge">атмосфера</div>
       <div class="text" style="font-size:1rem;margin-bottom:8px">Выберите атмосферу</div>
       <div class="sound-grid" id="soundGrid"></div>
-      <div class="audio-footer"><div><strong>Lo-Fi Radio</strong><span id="musicStatus">Фоновая музыка для работы и отдыха</span></div><button class="btn text-btn" id="musicToggle" onclick="toggleMusic()">▶ Включить</button></div>
+      <div class="audio-footer"><div><strong id="musicTitle">Атмосфера</strong><span id="musicStatus">Нажмите на звук — повторное нажатие остановит его</span></div></div>
     </div>
-    <div class="actions">
-      <div class="sound-controls"><button class="btn text-btn" id="soundStop" onclick="stopSound()" style="display:none">■ Остановить звук</button><label class="volume-control">Громкость <input id="volumeControl" type="range" min="0" max="1" step="0.05" value="0.45" aria-label="Громкость"></label></div>
-    </div>
+    
   </div>
 
   <!-- 8. АСТРО-ФАКТ -->
   <div class="panel" id="p8">
-    <div class="card">
+    <div class="card" onclick="newAstro()">
       <div class="badge">космос</div>
       <div class="content" id="c8">
         <div class="text" id="t8" style="font-size:1.1rem"></div>
       </div>
     </div>
-    <div class="actions">
-      <button class="btn" onclick="newAstro()" aria-label="Следующий факт">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </div>
   </div>
 
   <!-- 9. СТИХ -->
   <div class="panel" id="p9">
-    <div class="card">
+    <div class="card" onclick="newPoem()">
       <div class="badge">стих</div>
       <div class="content" id="c9">
         <div class="text" id="t9" style="font-size:1.05rem;white-space:pre-line"></div>
         <div class="author" id="a9"></div>
       </div>
     </div>
-    <div class="actions">
-      <button class="btn" onclick="newPoem()" aria-label="Следующий стих">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
-    </div>
   </div>
 
   <!-- 10. АФФИРМАЦИЯ -->
   <div class="panel" id="p10">
-    <div class="card">
+    <div class="card" onclick="newAffirm()">
       <div class="badge">напоминание</div>
       <div class="content" id="c10">
         <div class="text" id="t10" style="font-size:1.35rem;text-align:center"></div>
       </div>
-    </div>
-    <div class="actions">
-      <button class="btn" onclick="newAffirm()" aria-label="Следующая">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </button>
     </div>
   </div>
 
@@ -599,45 +665,29 @@ const POEMS = [
   {t:"Средь шумного бала, случайно,\nВ тревоге мирской суеты,\nТебя я увидел, но тайна\nТвои покрывала черты.",a:"А. К. Толстой"}
 ];
 
-// sounds-for-focus CDN base
-const SND = "https://cdn.jsdelivr.net/npm/sounds-for-focus@0.1.0/audio";
+// Атмосферные звуки создаются локально через Web Audio API: никаких ненадёжных MP3-ссылок.
 const SOUNDS = {
-  noise:{label:"Белый шум",url:SND+"/noise/white-noise.mp3"},
-  rain:{label:"Дождь",url:SND+"/rain/light-rain.mp3"},
-  fire:{label:"Костёр",url:SND+"/places/campfire.mp3"},
-  forest:{label:"Лес",url:SND+"/nature/forest.mp3"},
-  water:{label:"Вода",url:SND+"/nature/water-stream.mp3"},
-  plane:{label:"Самолёт",url:SND+"/places/airplane-cabin.mp3"},
-  wind:{label:"Ветер",url:SND+"/nature/wind.mp3"}
+  noise:{label:"Белый шум",kind:"noise"}, rain:{label:"Дождь",kind:"rain"}, fire:{label:"Костёр",kind:"fire"},
+  forest:{label:"Лес",kind:"forest"}, water:{label:"Вода",kind:"water"}, plane:{label:"Самолёт",kind:"plane"}, wind:{label:"Ветер",kind:"wind"}, lofi:{label:"Lo-fi",kind:"lofi"}
 };
-
-const LOFI_STREAMS = [
-  'https://live.lofiradio.ru/lofi_mp3_128',
-  'https://strm112.1.fm/lofi_mobile_mp3',
-  'https://stream.zeno.fm/0r0xa792kwzuv',
-  'https://ice5.somafm.com/groovesalad-128-aac',
-  'https://ice2.somafm.com/groovesalad-128-aac',
-  'https://streams.ilovemusic.de/iloveradio17.mp3',
-  'https://stream.bigfm.de/lofifocus/mp3-128/radiobrowser',
-  'https://listen.reyfm.de/lofi_320kbps.mp3'
-];
+const LOFI_STREAMS = ['https://live.lofiradio.ru/lofi_mp3_128','https://strm112.1.fm/lofi_mobile_mp3','https://ice5.somafm.com/groovesalad-128-aac'];
 
 // ============================================================
 // ВКЛАДКИ
 // ============================================================
 const TABS = [
-  {id:0,label:"Мысли",icon:"✳"},
+  {id:7,label:"Атмосфера",icon:"♫"},
+  {id:6,label:"Шаг",icon:"↗"},
+  {id:10,label:"Напоминание",icon:"♡"},
+  {id:0,label:"Цитаты",icon:"❝"},
   {id:2,label:"Слово дня",icon:"Aa"},
   {id:3,label:"Дыхание",icon:"◌"},
-  {id:6,label:"Переключись",icon:"↗"},
-  {id:7,label:"Звуки",icon:"♫"},
   {id:8,label:"Космос",icon:"✧"},
-  {id:9,label:"Стихи",icon:"❝"},
-  {id:10,label:"Напоминание",icon:"♡"}
+  {id:9,label:"Стихи",icon:"❝"}
 ];
 
-let currentTab = parseInt(localStorage.getItem('tab') || '0');
-if(![0,2,3,6,7,8,9,10].includes(currentTab)) currentTab=0;
+let currentTab = parseInt(localStorage.getItem('tab') || '7');
+if(![0,2,3,6,7,8,9,10].includes(currentTab)) currentTab=7;
 let timers = {};
 let audioEl = document.getElementById('bgAudio');
 let lofiEl = document.getElementById('lofiAudio');
@@ -663,8 +713,6 @@ function switchTab(id){
 function initTab(id){
   switch(id){
     case 0: resetQuoteTimer(); break;
-    case 3: stopBreath(); break;
-    case 6: newStep(); break;
   }
 }
 
@@ -672,48 +720,23 @@ function initTab(id){
 // 0. ЦИТАТНИК
 // ============================================================
 const ALL = [
-  ...QUOTES.map(q=>({t:q.t,a:q.a,type:"мысль"})),
-  ...JOKES.map(j=>({t:j.t,a:"",type:"шутка"})),
-  ...SAYINGS.map(s=>({t:s,a:"",type:"поговорка"})),
-  ...STATHAM.map(s=>({t:s,a:"",type:"Стетхем"})),
-  ...NORRIS.map(n=>({t:n,a:"",type:"Норрис"}))
+  ...QUOTES.map(q=>({t:q.t,a:q.a,type:"мысль"})), ...JOKES.map(j=>({t:j.t,a:"",type:"шутка"})),
+  ...SAYINGS.map(s=>({t:s,a:"",type:"поговорка"})), ...STATHAM.map(s=>({t:s,a:"",type:"Стетхем"})), ...NORRIS.map(n=>({t:n,a:"",type:"Норрис"}))
 ];
-let shuffled = [...ALL].sort(()=>Math.random()-0.5);
-let qi = 0;
-
+let filteredQuotes = [...ALL]; let shuffled = [...filteredQuotes].sort(()=>Math.random()-0.5); let qi = 0;
+function updateQuoteFilters(){
+  const enabled = [...document.querySelectorAll('[data-quote-type]')].filter(x=>x.checked).map(x=>x.dataset.quoteType);
+  filteredQuotes = ALL.filter(q=>enabled.includes(q.type));
+  if(!filteredQuotes.length){ document.querySelector('[data-quote-type="мысль"]').checked=true; filteredQuotes=ALL.filter(q=>q.type==='мысль'); }
+  shuffled=[...filteredQuotes].sort(()=>Math.random()-0.5); qi=0; showQuote(0); resetQuoteTimer();
+}
 function showQuote(i){
-  const item = shuffled[i % shuffled.length];
-  const c = document.getElementById('c0');
-  c.classList.add('exit');
-  setTimeout(()=>{
-    document.getElementById('t0').textContent = item.t;
-    document.getElementById('a0').textContent = item.a;
-    document.getElementById('badge0').textContent = item.type;
-    c.classList.remove('exit'); c.classList.add('enter');
-    void c.offsetHeight;
-    c.classList.remove('enter');
-  },450);
+  if(!shuffled.length)return; const item=shuffled[((i%shuffled.length)+shuffled.length)%shuffled.length];
+  const c=document.getElementById('c0'); c.classList.add('exit');
+  setTimeout(()=>{ document.getElementById('t0').textContent=item.t; document.getElementById('a0').textContent=item.a; document.getElementById('badge0').textContent=item.type; c.classList.remove('exit'); c.classList.add('enter'); void c.offsetHeight; c.classList.remove('enter'); },160);
 }
-
-function nextTab(which){
-  if(which===0){
-    qi = (qi+1)%shuffled.length;
-    showQuote(qi);
-    resetQuoteTimer();
-  }
-}
-
-function resetQuoteTimer(){
-  clearInterval(timers.quote);
-  let left = 60;
-  const el = document.getElementById('tmr0');
-  const upd = ()=>{ el.textContent = `следующая через ${left} сек`; };
-  upd();
-  timers.quote = setInterval(()=>{
-    left--; upd();
-    if(left<=0){ qi=(qi+1)%shuffled.length; showQuote(qi); left=60; }
-  },1000);
-}
+function nextTab(which){ qi=(qi+1)%shuffled.length; showQuote(qi); resetQuoteTimer(); }
+function resetQuoteTimer(){ clearInterval(timers.quote); let left=60; const el=document.getElementById('tmr0'); if(!el)return; const upd=()=>{el.textContent=`следующая через ${left} сек`;}; upd(); timers.quote=setInterval(()=>{left--;upd();if(left<=0){qi=(qi+1)%shuffled.length;showQuote(qi);left=60;}},1000); }
 
 // ============================================================
 // 1. ВИЗУАЛЬНЫЙ ШУМ
@@ -728,8 +751,6 @@ function newNoise(){
   el.style.background = `linear-gradient(${angle}deg, ${c1}, ${c2})`;
   el.style.boxShadow = `0 0 60px ${c2}33`;
 }
-newNoise();
-
 // ============================================================
 // 2. СЛОВО
 // ============================================================
@@ -761,7 +782,6 @@ const PHASES = [
 
 function toggleBreath(){
   if(breathTimer){ stopBreath(); return; }
-  document.getElementById('breathBtn').textContent = '■ Стоп';
   breathPhase = 0;
   runBreathPhase();
 }
@@ -771,7 +791,7 @@ function runBreathPhase(){
   const ring = document.getElementById('ring');
   const label = document.getElementById('blabel');
   ring.className = 'breath-ring ' + p.cls;
-  label.textContent = p.label;
+  label.textContent = p.label + ' · нажмите, чтобы остановить';
   breathTimer = setTimeout(()=>{
     breathPhase = (breathPhase+1) % PHASES.length;
     runBreathPhase();
@@ -782,8 +802,7 @@ function stopBreath(){
   clearTimeout(breathTimer);
   breathTimer = null;
   document.getElementById('ring').className = 'breath-ring';
-  document.getElementById('blabel').textContent = 'Нажмите старт';
-  document.getElementById('breathBtn').textContent = '▶ Старт';
+  document.getElementById('blabel').textContent = 'Нажмите, чтобы начать';
 }
 
 // ============================================================
@@ -820,7 +839,7 @@ async function newPhoto(){
     cap.textContent = 'Не удалось загрузить. Проверьте интернет.';
   }
 }
-newPhoto();
+
 
 // ============================================================
 // 6. ШАГ
@@ -843,127 +862,97 @@ function markDone(){
 }
 
 // ============================================================
-// 7. ЗВУК
+// ЕДИНЫЙ АУДИОПЛЕЕР
+// Атмосферы генерируются локально (не зависят от внешних MP3-ссылок).
+// Lo-fi перебирает радиопотоки по ошибке/таймауту; повторное нажатие всегда останавливает звук.
 // ============================================================
-let currentSound = null;
+let currentSound=null, audioCtx=null, soundNodes=[], lofiIdx=0, lofiRetries=0, playbackToken=0, lofiTimeout=null;
 function buildSounds(){
-  document.getElementById('soundGrid').innerHTML = Object.entries(SOUNDS).map(([k,v])=>
-    `<button class="sound-chip" data-key="${k}" onclick="playSound('${k}')">${v.label}</button>`
-  ).join('');
+  document.getElementById('soundGrid').innerHTML=Object.entries(SOUNDS).map(([k,v])=>`<button type="button" class="sound-chip" data-key="${k}" onclick="event.stopPropagation();playSound('${k}')">${v.label}</button>`).join('');
 }
 buildSounds();
-
-function playSound(key){
-  const s = SOUNDS[key];
-  if(!s) return;
-  if(currentSound === key){ stopSound(); return; }
-  audioEl.src = s.url;
-  audioEl.volume = Number(document.getElementById('volumeControl')?.value || 0.45);
-  audioEl.play().catch(()=>{ const status=document.getElementById('musicStatus'); if(status) status.textContent='Этот звук сейчас недоступен. Попробуйте другой.'; });
-  currentSound = key;
-  document.querySelectorAll('.sound-chip').forEach(c=>c.classList.toggle('on', c.dataset.key===key));
-  document.getElementById('soundStop').style.display = 'flex';
+function stopAmbient(){
+  soundNodes.forEach(n=>{try{if(typeof n.stop==='function')n.stop()}catch(e){}try{n.disconnect?.()}catch(e){}});
+  soundNodes=[];
 }
-
-function stopSound(){
-  audioEl.pause();
-  audioEl.src = '';
-  currentSound = null;
+function stopSound(message='Нажмите на атмосферу или Lo-fi, чтобы включить'){
+  playbackToken++;
+  clearTimeout(lofiTimeout); lofiTimeout=null;
+  stopAmbient();
+  try{audioEl.pause();audioEl.removeAttribute('src');audioEl.load()}catch(e){}
+  try{lofiEl.pause();lofiEl.removeAttribute('src');lofiEl.load()}catch(e){}
+  currentSound=null;
   document.querySelectorAll('.sound-chip').forEach(c=>c.classList.remove('on'));
-  document.getElementById('soundStop').style.display = 'none';
+  const status=document.getElementById('musicStatus');if(status)status.textContent=message;
+  const title=document.getElementById('musicTitle');if(title)title.textContent='Атмосфера';
 }
-
-// ============================================================
-// 8. АСТРО
-// ============================================================
-function newAstro(){
-  const f = ASTRO[Math.floor(Math.random()*ASTRO.length)];
-  const c = document.getElementById('c8');
-  c.classList.add('exit');
-  setTimeout(()=>{
-    document.getElementById('t8').textContent = f;
-    c.classList.remove('exit'); c.classList.add('enter');
-    void c.offsetHeight; c.classList.remove('enter');
-  },400);
+function makeNoiseBuffer(ctx,seconds=4){
+  const length=ctx.sampleRate*seconds,b=ctx.createBuffer(1,length,ctx.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<length;i++)d[i]=Math.random()*2-1;
+  return b;
 }
-newAstro();
-
-// ============================================================
-// 9. СТИХ
-// ============================================================
-function newPoem(){
-  const p = POEMS[Math.floor(Math.random()*POEMS.length)];
-  const c = document.getElementById('c9');
-  c.classList.add('exit');
-  setTimeout(()=>{
-    document.getElementById('t9').textContent = p.t;
-    document.getElementById('a9').textContent = p.a;
-    c.classList.remove('exit'); c.classList.add('enter');
-    void c.offsetHeight; c.classList.remove('enter');
-  },400);
+function startAmbient(key){
+  const Ctx=window.AudioContext||window.webkitAudioContext;
+  if(!Ctx)throw new Error('Web Audio не поддерживается');
+  if(!audioCtx)audioCtx=new Ctx();
+  const ctx=audioCtx;
+  const master=ctx.createGain();master.gain.value=.26;master.connect(ctx.destination);soundNodes.push(master);
+  const src=ctx.createBufferSource();src.buffer=makeNoiseBuffer(ctx);src.loop=true;
+  const filter=ctx.createBiquadFilter();filter.type='lowpass';
+  filter.frequency.value=({noise:14000,rain:6500,fire:1800,forest:2600,water:2200,plane:700,wind:900})[key]||3500;
+  const gain=ctx.createGain();gain.gain.value=({noise:.23,rain:.14,fire:.11,forest:.08,water:.17,plane:.19,wind:.15})[key]||.15;
+  src.connect(filter);filter.connect(gain);gain.connect(master);src.start();soundNodes.push(src,filter,gain);
+  // Texture layers so the sounds feel distinct rather than just a volume-filtered hiss.
+  if(key==='rain'||key==='water'||key==='forest'){
+    const hi=ctx.createBiquadFilter();hi.type='highpass';hi.frequency.value=key==='rain'?2400:900;
+    const g=ctx.createGain();g.gain.value=key==='rain'?.08:key==='water'?.055:.025;
+    src.connect(hi);hi.connect(g);g.connect(master);soundNodes.push(hi,g);
+  }
+  if(key==='fire'){
+    const osc=ctx.createOscillator(),og=ctx.createGain();osc.type='triangle';osc.frequency.value=48;og.gain.value=.025;osc.connect(og);og.connect(master);osc.start();soundNodes.push(osc,og);
+  }
+  if(key==='plane'){
+    const osc=ctx.createOscillator(),og=ctx.createGain();osc.type='sawtooth';osc.frequency.value=72;og.gain.value=.018;osc.connect(og);og.connect(master);osc.start();soundNodes.push(osc,og);
+  }
+  // Resume is asynchronous in Safari/iOS; keep it tied to the user's tap.
+  return ctx.resume();
 }
-newPoem();
-
-// ============================================================
-// 10. АФФИРМАЦИЯ
-// ============================================================
-function newAffirm(){
-  const a = AFFIRM[Math.floor(Math.random()*AFFIRM.length)];
-  const c = document.getElementById('c10');
-  c.classList.add('exit');
-  setTimeout(()=>{
-    document.getElementById('t10').textContent = a;
-    c.classList.remove('exit'); c.classList.add('enter');
-    void c.offsetHeight; c.classList.remove('enter');
-  },400);
+function playSound(key){
+  if(!SOUNDS[key])return;
+  if(currentSound===key){stopSound('Звук остановлен');return;}
+  stopSound('Переключаем звук…');
+  const token=playbackToken;
+  currentSound=key;
+  document.querySelectorAll('.sound-chip').forEach(c=>c.classList.toggle('on',c.dataset.key===key));
+  document.getElementById('musicTitle').textContent=SOUNDS[key].label;
+  const status=document.getElementById('musicStatus');status.textContent=key==='lofi'?'Подключаем Lo-fi…':'Воспроизведение · нажмите ещё раз, чтобы выключить';
+  if(key==='lofi'){startLofi(token);return;}
+  try{
+    Promise.resolve(startAmbient(key)).then(()=>{
+      if(token!==playbackToken||currentSound!==key)return;
+      status.textContent='Звучит · нажмите ещё раз, чтобы выключить';
+    }).catch(()=>{if(token===playbackToken&&currentSound===key)stopSound('Не удалось запустить звук в этом браузере. Нажмите ещё раз.');});
+  }catch(e){if(token===playbackToken&&currentSound===key)stopSound('Не удалось запустить звук в этом браузере.');}
 }
-newAffirm();
-
-// ============================================================
-// 11. МУЗЫКА
-// ============================================================
-let lofiPlaying = false;
-let lofiIdx = 0;
-let lofiRetries = 0;
-
-function toggleMusic(){
-  if(lofiPlaying){ stopLofi(); }
-  else { startLofi(); }
+function startLofi(token){
+  lofiRetries=0;tryLofiSource(token);
 }
-
-function startLofi(){
-  lofiRetries = 0;
-  lofiEl.volume = Number(document.getElementById('volumeControl')?.value || 0.45);
-  lofiEl.src = LOFI_STREAMS[lofiIdx];
-  lofiEl.play().then(()=>{
-    lofiPlaying = true;
-    document.getElementById('musicToggle').textContent = '■ Остановить';
-    document.getElementById('musicStatus').textContent = 'Играет...';
-  }).catch(()=>{
-    tryNextLofi();
-  });
+function tryLofiSource(token){
+  if(token!==playbackToken||currentSound!=='lofi')return;
+  if(lofiRetries>=LOFI_STREAMS.length){stopSound('Lo-fi-потоки недоступны. Попробуйте позже.');return;}
+  const url=LOFI_STREAMS[lofiRetries++];
+  clearTimeout(lofiTimeout);
+  lofiEl.pause();lofiEl.removeAttribute('src');lofiEl.load();lofiEl.src=url;lofiEl.load();
+  lofiTimeout=setTimeout(()=>{if(token===playbackToken&&currentSound==='lofi'&&lofiEl.paused)tryLofiSource(token);},7000);
+  const attempt=lofiEl.play();
+  if(attempt&&typeof attempt.then==='function')attempt.then(()=>{
+    if(token!==playbackToken||currentSound!=='lofi'){lofiEl.pause();return;}
+    clearTimeout(lofiTimeout);lofiTimeout=null;
+    document.getElementById('musicStatus').textContent='Lo-fi играет · нажмите ещё раз, чтобы выключить';
+  }).catch(()=>{if(token===playbackToken&&currentSound==='lofi')tryLofiSource(token);});
 }
-
-function tryNextLofi(){
-  if(lofiRetries >= 3){ stopLofi(); document.getElementById('musicStatus').textContent = 'Потоки недоступны'; return; }
-  lofiRetries++;
-  lofiIdx = (lofiIdx + 1) % LOFI_STREAMS.length;
-  lofiEl.src = LOFI_STREAMS[lofiIdx];
-  lofiEl.play().catch(()=>setTimeout(tryNextLofi, 2000));
-}
-
-function stopLofi(){
-  lofiEl.pause();
-  lofiEl.src = '';
-  lofiPlaying = false;
-  document.getElementById('musicToggle').textContent = '▶ Включить';
-  document.getElementById('musicStatus').textContent = 'Фоновая музыка для работы и отдыха';
-}
-
-document.getElementById('volumeControl')?.addEventListener('input', e=>{ audioEl.volume=Number(e.target.value); lofiEl.volume=Number(e.target.value); });
-lofiEl.addEventListener('error', tryNextLofi);
-lofiEl.addEventListener('playing', ()=>{ lofiRetries = 0; });
-
+lofiEl.addEventListener('error',()=>{if(currentSound==='lofi')tryLofiSource(playbackToken);});
+lofiEl.addEventListener('ended',()=>{if(currentSound==='lofi')tryLofiSource(playbackToken);});
 // ============================================================
 // СТАРТ
 // ============================================================
