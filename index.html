@@ -272,6 +272,19 @@ body{background:linear-gradient(180deg,#252d2b 0%,#222a28 100%)!important}
 }
 @media(min-width:761px){.tabbar{display:none!important}}
 
+
+/* Final responsive fix: all content cards initialise on mobile and navigation fits in two rows. */
+@media(max-width:760px){
+  body{padding-bottom:calc(112px + var(--safe-b))!important}
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex!important;padding:4px 7px calc(5px + var(--safe-b))!important;background:rgba(37,45,43,.97)!important;backdrop-filter:blur(16px)}
+  .tabbar-inner{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-template-rows:repeat(2,42px)!important;gap:5px!important;width:100%;max-width:100%;padding:4px 0 0!important;overflow:visible!important}
+  .tab{display:flex!important;align-items:center;justify-content:center;gap:5px;min-width:0!important;width:100%;height:42px;padding:5px 3px!important;border-radius:11px!important;border:1px solid var(--border)!important;background:#303936!important;white-space:nowrap;overflow:hidden}
+  .tab .icon{font-size:.85rem!important;flex:0 0 auto}
+  .tab .label{display:inline!important;font-size:clamp(.58rem,2.5vw,.72rem)!important;overflow:hidden;text-overflow:ellipsis}
+  .tab.active{background:#39433e!important;border-color:#9bb8a2!important;color:#c4dbc8!important}
+  .stage{padding-bottom:14px!important}
+}
+@media(max-width:360px){.tab{gap:3px!important}.tab .label{font-size:.57rem!important}.tab .icon{font-size:.78rem!important}}
 </style>
 </head>
 <body>
@@ -667,8 +680,8 @@ const POEMS = [
 
 // Атмосферные звуки создаются локально через Web Audio API: никаких ненадёжных MP3-ссылок.
 const SOUNDS = {
-  noise:{label:"Белый шум",kind:"noise"}, rain:{label:"Дождь",kind:"rain"}, fire:{label:"Костёр",kind:"fire"},
-  forest:{label:"Лес",kind:"forest"}, water:{label:"Вода",kind:"water"}, plane:{label:"Самолёт",kind:"plane"}, wind:{label:"Ветер",kind:"wind"}, lofi:{label:"Lo-fi",kind:"lofi"}
+  noise:{label:"Шум 1",kind:"noise"}, rain:{label:"Шум 2",kind:"rain"}, fire:{label:"Шум 3",kind:"fire"},
+  forest:{label:"Шум 4",kind:"forest"}, water:{label:"Шум 5",kind:"water"}, plane:{label:"Шум 6",kind:"plane"}, wind:{label:"Шум 7",kind:"wind"}, lofi:{label:"Lo-fi",kind:"lofi"}
 };
 const LOFI_STREAMS = ['https://live.lofiradio.ru/lofi_mp3_128','https://strm112.1.fm/lofi_mobile_mp3','https://ice5.somafm.com/groovesalad-128-aac'];
 
@@ -862,6 +875,35 @@ function markDone(){
 }
 
 // ============================================================
+// КОСМОС, СТИХИ И НАПОМИНАНИЯ
+// ============================================================
+let lastAstro = -1, lastPoem = -1, lastAffirm = -1;
+function pickDifferentIndex(length, previous){
+  if(length <= 1) return 0;
+  let index = Math.floor(Math.random() * length);
+  while(index === previous) index = Math.floor(Math.random() * length);
+  return index;
+}
+function newAstro(){
+  lastAstro = pickDifferentIndex(ASTRO.length, lastAstro);
+  const el = document.getElementById('t8');
+  if(el) el.textContent = ASTRO[lastAstro];
+}
+function newPoem(){
+  lastPoem = pickDifferentIndex(POEMS.length, lastPoem);
+  const poem = POEMS[lastPoem];
+  const text = document.getElementById('t9');
+  const author = document.getElementById('a9');
+  if(text) text.textContent = poem.t;
+  if(author) author.textContent = poem.a;
+}
+function newAffirm(){
+  lastAffirm = pickDifferentIndex(AFFIRM.length, lastAffirm);
+  const el = document.getElementById('t10');
+  if(el) el.textContent = AFFIRM[lastAffirm];
+}
+
+// ============================================================
 // ЕДИНЫЙ АУДИОПЛЕЕР
 // Атмосферы генерируются локально (не зависят от внешних MP3-ссылок).
 // Lo-fi перебирает радиопотоки по ошибке/таймауту; повторное нажатие всегда останавливает звук.
@@ -958,7 +1000,13 @@ lofiEl.addEventListener('ended',()=>{if(currentSound==='lofi')tryLofiSource(play
 // ============================================================
 buildTabs();
 switchTab(currentTab);
-if(window.matchMedia('(min-width: 761px)').matches){ newWord(); newStep(); newAstro(); newPoem(); newAffirm(); }
+newWord();
+newStep();
+newAstro();
+newPoem();
+newAffirm();
+newNoise();
+newPhoto();
 showQuote(0);
 resetQuoteTimer();
 </script>
